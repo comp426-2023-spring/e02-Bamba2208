@@ -1,12 +1,104 @@
-<html>
+<!DOCTYPE html>
+<html lang="en">
     <head>
-        <title>Rock</title>
+        <title>ROCK PAPER SCISSORS</title>
         <!-- Link to your script file(s) and CSS in here somewhere -->
+        <script src="./scripts.js"></script>
+        <link rel="stylesheet" href="./styles.css">
     </head>
     <body>
+        <h1>Play Rock Paper Scissors!</h1>
+
+        <div class="row">
+        <div class="first">
+        <h2>Original RPS</h2>
+        <label class="switch">
+            <input type="checkbox" onchange="toggleOG()">
+            <span class="slider"></span>
+        </label>
+        </div>
+        <div class="second">
+            <h2>Rules</h2>
+            <button type="submit" class="open-button" onclick="openRules()">Open Rules</button>
+        </div>
+
+        <div class="three">
+            <h2>Start Over!</h2>
+            <button type="submit" class="reset-button" onclick="reset()">RESET</button>
+        </div>
+
+        <div>
+        <h2>New RPSLS</h2>
+        <label class="switch">
+            <input type="checkbox" onchange="toggleNew()">
+            <span class="slider"></span>
+        </label>
+        </div>
+        </div>
+
+        <div class="rules">
+            <div class="rule-set">
+                <p class="version">Rules for Classic Rock Paper Scissors</p>
+                <ul class="info">
+                    <li>Scissors CUTS Paper -&gt; Winner: Scissors</li>
+                    <li>Paper COVERS Rock -&gt; Winner: Paper</li>
+                    <li>Rock CRUSHES Scissors -&gt; Winner: Rock</li>
+                </ul>
+            </div>
+            <div>
+                <p class="version">Rules for the Lizard-Spock Expansion Pack</p>
+                <ul class="info">
+                    <li>Scissors CUTS Paper -&gt; Winner: Scissors</li>
+                    <li>Paper COVERS Rock -&gt; Winner: Paper</li>
+                    <li>Rock SMOOSHES Lizard -&gt; Winner: Rock</li>
+                    <li>Lizard POISONS Spock -&gt; Winner: Lizard</li>
+                    <li>Spock SMASHES Scissors -&gt; Winner: Spock</li>
+                    <li>Scissors DECAPITATES Lizard -&gt; Winner: Scissors</li>
+                    <li>Lizard EATS Paper -&gt; Winner: Lizard</li>
+                    <li>Paper DISPROVES Spock -&gt; Winner: Paper</li>
+                    <li>Spock VAPORIZES Rock -&gt; Winner: Spock</li>
+                    <li>Rock CRUSHES Scissors -&gt; Winner: Rock</li>
+                </ul>
+            </div>
+            <button type="submit" class="close-button" onclick="closeRules()">Close Rules</button>
+        </div>
+        <div class="againstButton">
+        <div class="againstOpponent">
+        <h2>Against Opponent?</h2>
+        <label class="switch">
+            <input type="checkbox" onchange="toggle_against_opponent()">
+            <span class="slider"></span>
+        </label>
+        </div>
+        </div>
+
+        <div class="play">
+        <div>
+            <label for="shot">Choose a Shot:</label>
+            <select name="shot" id="shot">
+              <option value="rock">ROCK</option>
+              <option value="paper">PAPER</option>
+              <option value="scissors">SCISSORS</option>
+              <option value="lizard" class="rpsls">LIZARD</option>
+              <option value="spock" class="rpsls">SPOCK</option>
+            </select>
+            <br><br>
+            <button type="submit" class="play-button" onclick="play()">Throw!</button>
+        </div>
+        </div>
+
+
+        <div class="results-pop-up">
+            <div class="results">
+                <h2>Results</h2>
+                <p id="player" class="result-item"></p>
+                <p id="opponent" class="result-item"></p>
+                <p id="result" class="result-item"></p>
+                <button type="submit" class="reset-button" onclick="reset()">RESET</button>
+            </div>
+        </div>
 
     <!-- Your interface markup goes here -->
     <!-- For interface examples, look in the `/examples/` directory in the root of your starter code repo. -->
-
     </body>
 </html>
