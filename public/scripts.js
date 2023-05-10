@@ -1,140 +1,87 @@
 // If you would like to see some examples of similar code to make an interface interact with an API, 
 // check out the coin-server example from a previous COMP 426 semester.
 // https://github.com/jdmar3/coinserver
- var show1 = 0;
-  var show2 = 0;
-  var rps = false;
-  var rpsls = false;
-  var againstOpponent = false;
+function showHideShots() {
+    let check = document.getElementById('opponent');
+    let radiorpsls = document.getElementById('rpsls');
 
-  function toggleOG() {
-    var againstOpponent = document.getElementsByClassName("againstOpponent")[0];
-    var lizard = document.getElementsByClassName("rpsls")[0];
-    var spock = document.getElementsByClassName("rpsls")[1];
-    var play = document.getElementsByClassName("play")[0];
-    show1 += 1;
+    // Check if checked is checked. 
+    if (check.checked == true) {
+        $('.shots').show();
 
-    if (show1 % 2 == 1) {
-        if (show2 % 2 == 1) {
-            play.style.display = 'inline';
+        if (radiorpsls.checked == true) {
+            $('.rpsls').show();
+        } else {
+            // Since using radio, else means that radiorps.checked == true. 
+            $('.rpsls').hide();
         }
-        againstOpponent.style.display = 'inline';
-        lizard.style.display = 'none';
-        spock.style.display = 'none';
-        play.style.display = 'inline';
-        rpsls = false;
-        rps = true
-    }
-    else {
-        againstOpponent.style.display = 'none';
-        play.style.display = 'none';
-        rps = false;
-    }
-  }
-
-  function toggleNew() {
-    var againstOpponent = document.getElementsByClassName("againstOpponent")[0];
-    var lizard = document.getElementsByClassName("rpsls")[0];
-    var spock = document.getElementsByClassName("rpsls")[1];
-    var play = document.getElementsByClassName("play")[0];
-
-    show1 += 1;
-    
-
-    if (show1 % 2 == 1) {
-         if (show2 % 2 == 1) {
-            play.style.display = 'inline';
-        }
-        againstOpponent.style.display = 'inline';
-        lizard.style.display = 'inline';
-        spock.style.display = 'inline';
-        play.style.display = 'inline';
-        rps = false;
-        rpsls = true;
-    }
-    else {
-        againstOpponent.style.display = 'none';
-        lizard.style.display = 'none';
-        spock.style.display = 'none';
-        play.style.display = 'none';
-        rpsls = false;
-    }
-  }
-
-  function toggle_against_opponent() {
-    show2 += 1;
-    
-    if ((show1 % 2 == 1) && (show2 % 2 == 1)) {
-      againstOpponent = true;
-    }
-    else {
-      againstOpponent = false;
-    }
-  }
-
-  function openRules() {
-    var rules = document.getElementsByClassName("rules")[0];
-  
-    rules.style.display = 'inline';
-  }
-  
-  function closeRules() {
-    var rules = document.getElementsByClassName("rules")[0];
-  
-    rules.style.display = 'none';
-  }
-
-  function reset() {
-    show1 = 0;
-    show2 = 0;
-    rps = false;
-    rpsls = false;
-    againstOpponent = false;
-    location.reload();
-  }
-
-  async function play() {
-    var i = document.getElementById("shot");
-    var shot = i.value;  
-  
-    var player = document.getElementById("player");
-    var opponent = document.getElementById("opponent");
-    var result = document.getElementById("result");
-    var pop_up = document.getElementsByClassName("results-pop-up")[0];
-    
-    if (rps) {
-      if (shot && againstOpponent) {
-        console.log(shot)
-        const response = await fetch(`/app/rps/play/${shot}`);
-        const data = await response.json();
-  
-        player.innerHTML = `Player: ${data.player}.`
-        opponent.innerHTML = `Opponent: ${data.opponent}.`
-        result.innerHTML = `Result: ${data.result}.`
-        pop_up.style.display = 'inline'
-        console.log(data);
-      } else {
-        const response = await fetch(`/app/rps/play`);
-        const data = await response.json();
-        opponent.innerHTML = `Opponent: ${data.player}.`
-        pop_up.style.display = 'inline'
-        console.log(data);
-      }
     } else {
-      if (shot && againstOpponent) {
-        const response = await fetch(`/app/rpsls/play/${shot}`);
-        const data = await response.json();
-        player.innerHTML = `Player: ${data.player}.`
-        opponent.innerHTML = `Opponent: ${data.opponent}.`
-        result.innerHTML = `Result: ${data.result}.`
-        pop_up.style.display = 'inline'
-        console.log(data);
-      } else {
-        const response = await fetch(`/app/rpsls/play`);
-        const data = await response.json();
-        opponent.innerHTML = `Opponent: ${data.player}.`
-        pop_up.style.display = 'inline'
-        console.log(data);
-      }
-    }    
-  }
+        $('.shots').hide();
+    }
+}
+
+function startOver() {
+    $(".hideDuringResults").css({
+        display: "block",
+        visibility: "visible"
+    });
+
+    $(".inlineBlock").css({
+        display: "inline-block"
+    });
+
+    document.getElementById('userinput').reset();
+    $('.results').hide();
+    showHideShots();
+}
+
+async function playGame() {
+    $(".hideDuringResults").css({
+        display: "none",
+        visibility: "hidden"
+    });
+    let game = $('input[type=radio][name=game]:checked').val();
+    let shot = $('input[type=radio][name=shot]:checked').val();
+
+    let baseURL = window.location.href + 'app/';
+
+    let check = document.getElementById('opponent');
+    let url = '';
+
+    if (check.checked == true) {
+        url = baseURL + game + '/play/' + shot;
+    } else {
+        url = baseURL + game + '/play/';
+    }
+    console.log(url);
+
+
+    await fetch(url)
+        .then(function (response) {
+            return response.json();
+        })
+        .then(function (result) {
+            console.log(result);
+            if (check.checked==false) {
+                document.getElementById("playerChoice").innerHTML = result.player;
+            } else {
+                document.getElementById("playerChoice").innerHTML = "You: " + result.player;
+            }
+            document.getElementById("opponentChoice").innerHTML = "Opponent: " + result.opponent;
+            document.getElementById("gameResult").innerHTML = "Result: you " + result.result;
+        });
+
+
+    $('.playerChoice').show();
+
+    if (check.checked) {
+
+        $('.rpslsOutput').show();
+
+    } else {
+        $('.rpslsOutput').hide();
+    }
+
+    $('.results').show();
+    console.log(results); 
+}
