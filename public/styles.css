@@ -1,112 +1,77 @@
-.switch {
-    position: relative;
-    display: inline-block;
-    width: 60px;
-    height: 34px;
-  }
-  
-  /* Hide default HTML checkbox */
-  .switch input {
-    opacity: 0;
-    width: 0;
-    height: 0;
-  }
-  
-  /* The slider */
-  .slider {
-    position: absolute;
-    cursor: pointer;
-    top: 0;
-    left: 0;
-    right: 0;
-    bottom: 0;
-    background-color: #ccc;
-    transition: .4s;
-  }
-  
-  .slider:before {
-    position: absolute;
-    content: "";
-    height: 26px;
-    width: 26px;
-    left: 4px;
-    bottom: 4px;
-    background-color: white;
-    transition: .4s;
-  }
-  
-  input:checked + .slider {
-    background-color: #2196F3;
-  }
-  
-  input:focus + .slider {
-    box-shadow: 0 0 1px #2196F3;
-  }
-  
-  input:checked + .slider:before {
-    transform: translateX(26px);
-  }
-  
-  .slider.round:before {
-    border-radius: 50%;
-  }
-
-.row {
-    justify-content: center;
-    text-align: center;
-    display: flex; 
-    flex-direction: row;
+* {
+    font-family: 'Montserrat', sans-serif;
 }
-
-.first {
-    margin-right: 3rem;
-}
-
-.second {
-    margin-right: 3rem;
-}
-
-.three {
-  margin-right: 3rem;
-}
-
-.againstOpponent {
-    display: none;
-    justify-content: center;
-  }
-.againstButton {
-    text-align: center;
-    margin-bottom: 3rem;
-}
-
-.play {
-    text-align: center;
-    justify-content: center;
-    display: none;
-}
-
-.rpsls {
-    display: none;
-}
-
-.rules {
-    display: none;
-}
-
-.results-pop-up {
-    display: none;
-    text-align: center;
-}
-
 body {
-    font-size: large;
+    margin: 12% 25%; 
+    max-height: 100vh; 
+    accent-color: #C04641; 
+}
+form>* {
+    margin: 20pt;
+}
+
+.results {
+    margin-left: 20pt;
+}
+
+button, .btn {
+    font-family: 'Source Code Pro', monospace;
+    font-size: 16pt;
+    padding: 0.5rem;
+    background-color: #C04641;
+    color: white;
+    border: none;
+    border-radius: 5px;
+    margin: 0.75rem;
+    max-width: 250px; 
+    width: 40%;
+}
+
+button:hover, .btn:hover {
+    background-color: #90a959ff;
+    color: white;
+}
+
+button:active, .btn:active {
+    background-color: #e9b872ff;
 }
 
 h1 {
-    font-size: 50px;
-    text-align: center;
+    font-size: 20pt;
+    font-weight: 700;
 }
 h2 {
-    font-size: 30px;
+    font-size: 15pt; 
 }
+
+.results {
+    display: none;
+}
+
+.redFont {
+    color: #C04641;
+}
+
+a {
+    text-decoration: none;
+    color: black; 
+}
+
+a:hover {
+    font-weight: bold;
+    color: #C04641;
+}
+
+.btn a {
+    font-family: 'Source Code Pro', monospace;
+    text-decoration: none;
+    color: white; 
+}
+
+.btn {
+    text-align: center;
+}
+
+
+
 
