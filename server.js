@@ -1,8 +1,5 @@
-//// Load most basic dependencies
-// Create require function 
-// https://nodejs.org/docs/latest-v18.x/api/module.html#modulecreaterequirefilename
 import { createRequire } from 'node:module';
-import { rps, rpsls } from './lib/rpsls.js'
+import {rps, rpsls} from './lib/rpsls.js'; 
 const require = createRequire(import.meta.url);
 // The above two lines allow us to use ES methods and CJS methods for loading
 // dependencies.
@@ -73,41 +70,76 @@ app.use(morgan(':remote-addr - :remote-user [:date[iso]] ":method :url HTTP/:htt
 const staticpath = args.stat || args.s || process.env.STATICPATH || path.join(__dirname, 'public')
 app.use('/', express.static(staticpath))
 
-app.use(express.json());
-app.use(express.urlencoded({extended: true}))
+//  ADD THINGS HERE. 
 
-app.get('/app', (req, res) => {
-	res.status(200).send("200 OK");
+app.get("/app/", (req, res, next) => {
+    res.status(200).end('200 OK'); 
+}); 
+
+// Endpoint for RPS & RPSLS with no input. 
+app.get('/app/rps/', (req, res) => {
+    const play = rps(); 
+    res.status(200).send(play); 
+}); 
+
+app.get('/app/rpsls/', (req, res) => {
+    const play = rpsls(); 
+    res.status(200).send(play); 
+}); 
+
+// For RPS URL/JSON.
+app.get('/app/rps/play/', (req, res) => {
+    const input = req.query.shot; 
+    const play = rps(input); 
+    res.send(play); 
+}); 
+
+app.use(express.json()); 
+app.use(express.urlencoded({extended: true})); 
+
+app.post('/app/rps/play/', (req, res) => {
+    const input = req.body.shot;
+    const play = rps(input); 
+    res.send(play); 
+    res.end(); 
+}); 
+
+// For RPSLS URL/JSON. 
+app.get('/app/rpsls/play/', (req, res) => {
+    const input = req.query.shot; 
+    const play = rpsls(input); 
+    res.send(play); 
+}); 
+
+app.use(express.json()); 
+app.use(express.urlencoded({extended: true})); 
+
+app.post('/app/rpsls/play/', (req, res) => {
+    const input = req.body.shot;
+    const play = rpsls(input); 
+    res.send(play); 
+    res.end(); 
+}); 
+
+// Endpoint /app/___/play/options/
+app.get('/app/rps/play/:input/', (req, res) => {
+    const play = rps(req.params.input); 
+    res.status(200).send(play); 
+});
+
+app.get('/app/rpsls/play/:input/', (req, res) => {
+    const play = rpsls(req.params.input); 
+    res.status(200).send(play); 
 })
 
-app.get('/app/rps', (req, res) => {
-	res.status(200).send(rps());
-})
+// Default API endpoint
+app.use(function(req, res) {
+    const statusCode = 404; 
+    const statusMsg = 'NOT FOUND'; 
+    res.status(statusCode).end(statusCode+' '+statusMsg); 
+}); 
 
-app.get('/app/rpsls', (req, res) => {
-	res.status(200).send(rpsls());
-})
-
-app.get('/app/rps/play', (req, res) => {
-	res.status(200).send(rps(req.query.shot));
-})
-
-app.get('/app/rpsls/play', (req, res) => {
-	res.status(200).send(rpsls(req.query.shot));
-})
-
-app.get('/app/rps/play/:arg', (req, res) => {
-	res.status(200).send(rps(req.params.arg));
-})
-
-app.get('/app/rpsls/play/:arg', (req, res) => {
-	res.status(200).send(rpsls(req.params.arg));
-})
-
-app.get('*', (req, res) => {
-	res.status(404).send('404 NOT FOUND');
-})
-
+// END OF ADDED THINGS. 
 // Create app listener
 const server = app.listen(port)
 // Create a log entry on start
